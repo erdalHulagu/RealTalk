@@ -3,7 +3,7 @@ package com.erdal.realTalk.user;
 
 import org.hibernate.Session;
 
-import com.erdal.realTalk.user.demo.User;
+import com.erdal.realTalk.user.model.User;
 import com.erdal.realTalk.user.role.Role;
 import com.erdal.realTalk.user.status.Status;
 import com.erdal.realTalk.user.util.HibernateUtil;
@@ -28,7 +28,7 @@ public class MainApp {
                     Status.ACTIVE
             );
 
-            // 3️⃣ Veritabanına kaydet
+            // 3  Veritabanına kaydet
             session.persist(user);
             session.getTransaction().commit();
 
@@ -38,7 +38,7 @@ public class MainApp {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            // 4️⃣ Kaynakları kapat
+            // 4 Kaynakları kapat
             session.close();
             HibernateUtil.shutdown();
         }
