@@ -1,8 +1,8 @@
 package com.erdal.realTalk.user.controller;
 
+import com.erdal.realTalk.common.response.ResponseMessage;
+import com.erdal.realTalk.common.response.UserResponse;
 import com.erdal.realTalk.user.requests.UserRequest;
-import com.erdal.realTalk.user.response.ResponseMessage;
-import com.erdal.realTalk.user.response.UserResponse;
 import com.erdal.realTalk.user.service.UserService;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.Consumes;

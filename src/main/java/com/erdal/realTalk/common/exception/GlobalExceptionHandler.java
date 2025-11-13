@@ -1,4 +1,4 @@
-package com.erdal.realTalk.user.exception;
+package com.erdal.realTalk.common.exception;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

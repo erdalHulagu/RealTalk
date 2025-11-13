@@ -1,4 +1,4 @@
-package com.erdal.realTalk.user.exception;
+package com.erdal.realTalk.common.exception;
 
 
 import java.time.LocalDateTime;

@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.erdal.realTalk.user.model.User;
-import com.erdal.realTalk.user.util.HibernateUtil;
+import com.erdal.realTalk.util.HibernateUtil;
 
 public class UserRepository {
 	

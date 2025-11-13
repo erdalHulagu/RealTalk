@@ -1,4 +1,4 @@
-package com.erdal.realTalk.user.util;
+package com.erdal.realTalk.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

@@ -1,4 +1,4 @@
-package com.erdal.realTalk.user.response;
+package com.erdal.realTalk.common.response;
 
 public class ResponseMessage {
 

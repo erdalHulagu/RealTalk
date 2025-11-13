@@ -1,7 +1,7 @@
 package com.erdal.realTalk.user.service;
 
-import com.erdal.realTalk.user.exception.ErrorMessage;
-import com.erdal.realTalk.user.exception.ResourceNotFoundException;
+import com.erdal.realTalk.common.exception.ErrorMessage;
+import com.erdal.realTalk.common.exception.ResourceNotFoundException;
 import com.erdal.realTalk.user.mapper.UserMapper;
 import com.erdal.realTalk.user.model.User;
 import com.erdal.realTalk.user.repository.UserRepository;
@@ -28,7 +28,7 @@ public class UserService {
 		      
 		      if (user==null) { throw new ResourceNotFoundException(ErrorMessage.BAD_REQUEST);}
 		    	  
-		    	userRepository,save(user);
+		    	userRepository.save(user);
 				
 			
 		
