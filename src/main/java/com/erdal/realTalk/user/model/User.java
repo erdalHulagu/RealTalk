@@ -14,7 +14,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    private String fullName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -32,8 +32,8 @@ public class User {
 
     public User() {}
 
-    public User(String username, String email, String password, Role role, Status status) {
-        this.username = username;
+    public User(String fullName, String email, String password, Role role, Status status) {
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -45,9 +45,9 @@ public class User {
 
     public void setId(Long id) { this.id = id; }
 
-    public String getUsername() { return username; }
+    public String getFullName() { return fullName; }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setFullName(String username) { this.fullName = username; }
 
     public String getEmail() { return email; }
 
@@ -69,10 +69,12 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 ", status=" + status +
                 '}';
     }
+
+	
 }
