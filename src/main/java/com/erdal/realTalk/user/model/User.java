@@ -1,5 +1,7 @@
 package com.erdal.realTalk.user.model;
 
+
+
 import com.erdal.realTalk.user.role.Role;
 import com.erdal.realTalk.user.status.Status;
 
