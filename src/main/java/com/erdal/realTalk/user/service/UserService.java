@@ -1,5 +1,9 @@
 package com.erdal.realTalk.user.service;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.erdal.realTalk.common.exception.ErrorMessage;
 import com.erdal.realTalk.common.exception.ResourceNotFoundException;
 import com.erdal.realTalk.user.kafka.UserProducer;
@@ -18,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper; // JSON dönüşümü için
  * - Database kaydı (Hibernate)
  * - Kafka event yayını (user_created)
  */
+@ApplicationScoped
+@Singleton
 public class UserService {
 
     private UserRepository userRepository;
@@ -26,6 +32,7 @@ public class UserService {
     private ObjectMapper objectMapper;
 
     // Constructor: Repository, Mapper ve Kafka Producer injection
+    @Inject
     public UserService(UserRepository userRepository, UserMapper userMapper, UserProducer kafkaProducer) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
@@ -51,6 +58,7 @@ public class UserService {
 
         // 2. Database kaydı
         userRepository.save(user);
+        System.out.println("UserService.createUser end");
 
         // 3. Kafka event oluştur ve gönder
         try {

@@ -1,8 +1,11 @@
 package com.erdal.realTalk.user.mapper;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import com.erdal.realTalk.user.model.User;
 import com.erdal.realTalk.user.requests.UserRequest;
 
+@ApplicationScoped
 public class UserMapper {
 	
 	public User UserRequestToUser(UserRequest userRequest) {

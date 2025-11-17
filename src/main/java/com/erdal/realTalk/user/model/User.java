@@ -2,10 +2,10 @@ package com.erdal.realTalk.user.model;
 
 
 
+import javax.persistence.*;
+
 import com.erdal.realTalk.user.role.Role;
 import com.erdal.realTalk.user.status.Status;
-
-import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")

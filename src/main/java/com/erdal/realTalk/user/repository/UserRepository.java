@@ -1,11 +1,14 @@
 package com.erdal.realTalk.user.repository;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.erdal.realTalk.user.model.User;
 import com.erdal.realTalk.util.HibernateUtil;
 
+@ApplicationScoped
 public class UserRepository {
 	
 	 public void save(User user) {

@@ -8,198 +8,102 @@
 	<version>1.0.0</version>
 	<packaging>war</packaging>
 
-	<name>User Service</name>
-	<description>RealTalk user-service — Jersey 2.x (javax), Hibernate, Kafka,
-		Jetty</description>
-
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jersey.version>2.35</jersey.version>
+		<weld.version>3.1.9.Final</weld.version>
 	</properties>
 
 	<dependencies>
 
-		<!--
-      Hibernate Core (ORM)
-      - Entity yönetimi ve JPA implementasyonu (SQL oluşturma, session yönetimi)
-      - Versiyon 6.x kullanılabilir; Hibernate 6 kullanıyoruz.
-    -->
+		<!-- Hibernate -->
 		<dependency>
-			<groupId>org.hibernate.orm</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.3.0.Final</version>
+			<version>5.6.15.Final</version>
 		</dependency>
 
-		<!--
-      PostgreSQL JDBC Driver
-      - PostgreSQL veritabanına bağlanmak için resmi sürücü
-    -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.6.0</version>
 		</dependency>
 
-		<!--
-      HikariCP (optional but recommended)
-      - Production-quality connection pool (performans ve stabilite için)
-    -->
-		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<version>5.1.0</version>
-		</dependency>
-
-		<!--
-      javax.ws.rs API (Jersey 2.x ile uyumlu JAX-RS API)
-      - Jersey 2.x (javax) kullandığımız için javax.ws.rs-api zorunlu
-    -->
+		<!-- javax JAX-RS API -->
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>2.1.1</version>
 		</dependency>
 
-		<!-- javax.annotation, bazı kütüphaneler için gerekli -->
+		<!-- javax.annotation -->
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+		
+		
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>2.0.SP1</version>
+			<scope>compile</scope>
+		</dependency>
 
-		<!--
-      Jersey Server (JAX-RS implementation, core)
-      - REST resource lifecycle ve request handling
-    -->
+		<!-- Jersey core -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-server</artifactId>
-			<version>2.35</version>
+			<version>${jersey.version}</version>
 		</dependency>
 
-		<!--
-      Jersey Jetty container
-      - Jersey uygulamasını embedded Jetty üzerinde çalıştırmak için
-    -->
+		<!-- Jetty integration -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-jetty-http</artifactId>
-			<version>2.35</version>
+			<version>${jersey.version}</version>
 		</dependency>
 
-		<!--
-      Jersey JSON support (Jackson)
-      - JSON (de)serialization için Jackson entegrasyonu
-    -->
+		<!-- JSON support -->
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>2.35</version>
+			<version>${jersey.version}</version>
 		</dependency>
 
-		<!-- Jersey CDI integration -->
+		<!-- HK2 (Jersey default injection) -->
 		<dependency>
-			<groupId>org.glassfish.jersey.ext.cdi</groupId>
-			<artifactId>jersey-weld2-se</artifactId>
-			<version>2.35</version>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>${jersey.version}</version>
 		</dependency>
 
-		<!--
-      Jackson Databind
-      - ObjectMapper ve JSON dönüşümleri için (merchant)
-      - Jersey-media-json-jackson transitively eklemeyebilir; açıkça eklemek
-		uyumluluk sağlar
-    -->
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.15.2</version>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>${jersey.version}</version>
 		</dependency>
 
-		<!--
-      Kafka clients
-      - Producer / Consumer işlevleri (microservice messaging)
-    -->
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-clients</artifactId>
-			<version>3.7.0</version>
-		</dependency>
 
-		<!--
-      SLF4J API
-      - Logging için standart arayüz
-    -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>2.0.12</version>
-		</dependency>
-
-		<!--
-      Logback (SLF4J implementasyonu)
-      - Production-friendly logging implementation
-    -->
+		<!-- Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.4.14</version>
 		</dependency>
 
+		<!-- Kafka -->
 		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		<!--jboss.weld.se
-    -->
-		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se-core</artifactId>
-			<version>5.1.1.Final</version>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
+			<version>3.7.0</version>
 		</dependency>
 
-		<!--
-      JUnit 5 (test)
-      - Unit test yazmak için
-    -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.10.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.10.0</version>
-			<scope>test</scope>
-		</dependency>
+		
+
 
 	</dependencies>
 
-	<build>
-		<finalName>user-service</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
-				<configuration>
-					<source>17</source>
-					<target>17</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.3.2</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -30,9 +30,10 @@ import com.erdal.realTalk.user.service.UserService;
 @Path("/users")
 public class UserController {
 
-    @Inject
+   
     private UserService userService;
-
+    
+    @Inject
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -47,11 +48,15 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(UserRequest userRequest) {
-
+    	System.out.println("UserService.createUser start");
         userService.createUser(userRequest);
 
         UserResponse userResponse = new UserResponse(ResponseMessage.USER_CREATED, true);
 
-        return Response.status(Response.Status.CREATED).entity(userResponse).build();
+        return Response.status(Response.Status.CREATED)
+                .entity(userResponse)
+                .build();
+       
     }
+    
 }
