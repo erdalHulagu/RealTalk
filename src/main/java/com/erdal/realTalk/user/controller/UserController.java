@@ -10,9 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.erdal.realTalk.common.response.ResponseMessage;
 import com.erdal.realTalk.common.response.UserResponse;
-import com.erdal.realTalk.user.requests.UserRequest;
+import com.erdal.realTalk.user.model.User;
 import com.erdal.realTalk.user.service.UserService;
 
 /**
@@ -30,33 +29,19 @@ import com.erdal.realTalk.user.service.UserService;
 @Path("/users")
 public class UserController {
 
-   
-    private UserService userService;
-    
     @Inject
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-    /**
-     * createUser
-     * ------------------
-     * 1. JSON formatında UserRequest alır
-     * 2. UserService.createUser() ile kullanıcıyı DB'ye kaydeder ve Kafka event gönderir
-     * 3. Başarılı ise HTTP 201 CREATED + UserResponse döner
-     */
+    private UserService userService;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(UserRequest userRequest) {
-    	System.out.println("UserService.createUser start");
-        userService.createUser(userRequest);
+    public Response create(User user) {
 
-        UserResponse userResponse = new UserResponse(ResponseMessage.USER_CREATED, true);
+        userService.createUser(user);
 
         return Response.status(Response.Status.CREATED)
-                .entity(userResponse)
+                .entity(new UserResponse("User created", true))
                 .build();
-       
     }
-    
 }
+

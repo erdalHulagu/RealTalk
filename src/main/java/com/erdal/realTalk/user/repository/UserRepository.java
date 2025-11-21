@@ -11,6 +11,8 @@ import com.erdal.realTalk.util.HibernateUtil;
 @ApplicationScoped
 public class UserRepository {
 	
+	 public UserRepository() {}
+	
 	 public void save(User user) {
 	        Transaction transaction = null;
 	        try (Session session = HibernateUtil.getSessionFactory().openSession()) {

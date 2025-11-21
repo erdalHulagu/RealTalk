@@ -9,6 +9,10 @@ import java.util.Properties;
 import java.util.concurrent.Future;
 
 public class UserProducer {
+	
+	public UserProducer() {
+	    this("localhost:9092", "user-events");
+	}
 
     private final KafkaProducer<String, String> producer;
     private final String topic;

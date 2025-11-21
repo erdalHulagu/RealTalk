@@ -7,11 +7,10 @@ import javax.inject.Singleton;
 import com.erdal.realTalk.common.exception.ErrorMessage;
 import com.erdal.realTalk.common.exception.ResourceNotFoundException;
 import com.erdal.realTalk.user.kafka.UserProducer;
-import com.erdal.realTalk.user.mapper.UserMapper;
 import com.erdal.realTalk.user.model.User;
 import com.erdal.realTalk.user.repository.UserRepository;
-import com.erdal.realTalk.user.requests.UserRequest;
-
+import com.erdal.realTalk.user.role.Role;
+import com.erdal.realTalk.user.status.Status;
 import com.fasterxml.jackson.databind.ObjectMapper; // JSON dönüşümü için
 
 /**
@@ -22,52 +21,48 @@ import com.fasterxml.jackson.databind.ObjectMapper; // JSON dönüşümü için
  * - Database kaydı (Hibernate)
  * - Kafka event yayını (user_created)
  */
-@ApplicationScoped
+
 @Singleton
+@ApplicationScoped
 public class UserService {
 
-    private UserRepository userRepository;
-    private UserMapper userMapper;
-    private UserProducer kafkaProducer;
-    private ObjectMapper objectMapper;
-
-    // Constructor: Repository, Mapper ve Kafka Producer injection
     @Inject
-    public UserService(UserRepository userRepository, UserMapper userMapper, UserProducer kafkaProducer) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.kafkaProducer = kafkaProducer;
-        this.objectMapper = new ObjectMapper();
-    }
+    private UserRepository userRepository;
 
-    /**
-     * createUser
-     * ------------------
-     * 1. UserRequest -> User entity dönüştürür
-     * 2. DB'ye kaydeder
-     * 3. Kafka'ya 'user_created' event gönderir
-     */
-    public void createUser(UserRequest userRequest) {
-        // 1. User entity oluştur
-        User user = userMapper.UserRequestToUser(userRequest);
+    @Inject
+    private UserProducer producer;
 
-        // Eğer mapping başarısızsa hata fırlat
+    @Inject
+    private ObjectMapper objectMapper;
+    
+   
+
+    public void createUser(User user) {
+        // Eğer null ise hata fırlat
         if (user == null) {
             throw new ResourceNotFoundException(ErrorMessage.BAD_REQUEST);
         }
 
-        // 2. Database kaydı
+        user.setRole(Role.USER);
+        user.setStatus(Status.ACTIVE);
+
+        // DB kaydı
         userRepository.save(user);
         System.out.println("UserService.createUser end");
 
-        // 3. Kafka event oluştur ve gönder
+        // Kafka kısmını try-catch ile kapattık
         try {
-            String userJson = objectMapper.writeValueAsString(user); // Useri-> JSONa ceviriyor objectMapper.writeValueAsString(user)
-            kafkaProducer.sendMessage(userJson); // Kafka topic: user-events
-            System.out.println("Kafka: user_created event gönderildi");
+            if (producer != null) {
+                String userJson = objectMapper.writeValueAsString(user);
+                producer.sendMessage(userJson);
+                System.out.println("Kafka: user_created event gönderildi");
+            } else {
+                System.out.println("Kafka producer null, mesaj gönderilmedi");
+            }
         } catch (Exception e) {
-            e.printStackTrace(); 
-            // Kafka gönderim hatası DB kaydını bozmaz, sadece log tutar
+            System.out.println("Kafka broker çalışmıyor, mesaj gönderilemedi");
         }
     }
 }
+
+
