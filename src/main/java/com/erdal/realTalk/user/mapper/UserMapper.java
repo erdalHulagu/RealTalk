@@ -1,25 +1,23 @@
 package com.erdal.realTalk.user.mapper;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Singleton;
 
 import com.erdal.realTalk.user.model.User;
 import com.erdal.realTalk.user.requests.UserRequest;
 
-@ApplicationScoped
+@Singleton
 public class UserMapper {
 	
-	public User UserRequestToUser(UserRequest userRequest) {
-		
-		User user = new User();
-		user.setFullName(userRequest.getFullName());
-		user.setId(userRequest.getId());
-		user.setEmail(userRequest.getEmail());
-		user.setPassword(userRequest.getPassword());
-		
-		return user;
-		
-	}
+
+
+    public User userRequestToUser(UserRequest req) {
+        User user = new User();
+        user.setFullName(req.getFullName());
+        user.setEmail(req.getEmail());
+        user.setPassword(req.getPassword());
+        return user;
+    }
+}
 	
 	
 
-}

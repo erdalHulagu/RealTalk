@@ -5,11 +5,14 @@ import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 
 public class ServerInitializer {
 
-    private static final String BASE_URI = "http://localhost:8080/";
-
     public static void startServer() {
-        URI uri = URI.create(BASE_URI);
+        String host = System.getenv().getOrDefault("SERVER_HOST", "0.0.0.0");
+        String port = System.getenv().getOrDefault("SERVER_PORT", "8080");
+        String baseUri = "http://" + host + ":" + port + "/";
+
+        URI uri = URI.create(baseUri);
         JettyHttpContainerFactory.createServer(uri, new ServerConfig());
+
         System.out.println("Server started at " + uri);
     }
 }
