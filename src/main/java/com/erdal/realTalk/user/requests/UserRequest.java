@@ -1,7 +1,8 @@
 package com.erdal.realTalk.user.requests;
 
+import javax.inject.Singleton;
 
-
+@Singleton
 public class UserRequest {
 	
 	    private Long id;

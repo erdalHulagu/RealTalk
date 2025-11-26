@@ -1,5 +1,6 @@
 package com.erdal.realTalk.user.mapper;
 
+
 import javax.inject.Singleton;
 
 import com.erdal.realTalk.user.model.User;

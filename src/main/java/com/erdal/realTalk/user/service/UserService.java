@@ -40,22 +40,25 @@ public class UserService {
     private ObjectMapper objectMapper;
 
     public void createUser(User user) {
-        if (user == null) throw new ResourceNotFoundException(ErrorMessage.BAD_REQUEST);
+        if (user == null)
+            throw new ResourceNotFoundException(ErrorMessage.BAD_REQUEST);
 
-        // Password hash
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         user.setRole(Role.USER);
         user.setStatus(Status.ACTIVE);
 
-        userRepository.save(user);
-
         try {
+            userRepository.save(user);
+
             String json = objectMapper.writeValueAsString(user);
             producer.sendMessage(json);
+
         } catch (Exception e) {
-            System.out.println("Kafka mesajı gönderilemedi");
+            e.printStackTrace();
+            throw new RuntimeException("User cannot be created", e);
         }
     }
+
 }
 
 

@@ -7,7 +7,7 @@ public class UserResponse  {
 	private boolean succes;
 
 	public UserResponse(String message, boolean succes) {
-		super();
+		
 		this.message = message;
 		this.succes = succes;
 	}
